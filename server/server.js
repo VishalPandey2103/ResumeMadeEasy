@@ -16,8 +16,7 @@ app.use(express.json())
 app.use(express.json())
 app.use(cors({
   origin: [
-    "http://localhost:5173",
-    "https://resume-made-easy-sable.vercel.app"
+    "*"
   ],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
