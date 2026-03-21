@@ -1,60 +1,49 @@
-import React from 'react'
+import { Check, Palette } from 'lucide-react'
+import React, { useState } from 'react'
 
 const colors = [
-  '#3B82F6',
-  '#10B981',
-  '#F59E0B',
-  '#EF4444',
-  '#8B5CF6',
-  '#EC4899',
-  '#14B8A6',
-  '#F97316',
-  '#6366F1',
-  '#111827',
+  { name: 'Slate',   value: '#334155' },
+  { name: 'Blue',    value: '#2563eb' },
+  { name: 'Indigo',  value: '#4f46e5' },
+  { name: 'Amber',   value: '#d97706' },
+  { name: 'Teal',    value: '#0d9488' },
+  { name: 'Green',   value: '#16a34a' },
+  { name: 'Rose',    value: '#e11d48' },
+  { name: 'Stone',   value: '#78716c' },
+  { name: 'Sky',     value: '#0284c7' },
+  { name: 'Violet',  value: '#7c3aed' },
 ]
 
-const ColorPicker = ({ resumeData, setResumeData }) => {
-
-  const handleColorChange = (color) => {
-    setResumeData({ ...resumeData, accent_color: color })
-  }
+const ColorPicker = ({ selectedColor, onChange }) => {
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <div className='space-y-3'>
-      <h2 className='text-sm font-semibold' style={{ color: 'var(--text)' }}>
-        Accent Color
-      </h2>
+    <div className="relative">
+      <button
+        onClick={() => setIsOpen(o => !o)}
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs border transition-colors"
+        style={{ borderColor: 'var(--border)', color: 'var(--text-muted)', background: 'white' }}>
+        <div className="w-3 h-3 rounded-full" style={{ background: selectedColor }} />
+        Accent
+      </button>
 
-      <div className='flex flex-wrap gap-2'>
-        {colors.map(color => (
-          <button
-            key={color}
-            onClick={() => handleColorChange(color)}
-            className='w-7 h-7 rounded-full transition-transform hover:scale-110'
-            style={{
-              background: color,
-              outline: resumeData.accent_color === color ? `2px solid ${color}` : 'none',
-              outlineOffset: '2px'
-            }}
-          />
-        ))}
-      </div>
-
-      <div className='flex items-center gap-3'>
-        <label className='text-xs' style={{ color: 'var(--text-muted)' }}>
-          Custom
-        </label>
-        <input
-          type='color'
-          value={resumeData.accent_color || '#3B82F6'}
-          onChange={e => handleColorChange(e.target.value)}
-          className='w-8 h-8 rounded cursor-pointer border-0 p-0'
-          style={{ background: 'none' }}
-        />
-        <span className='text-xs font-mono' style={{ color: 'var(--text-muted)' }}>
-          {resumeData.accent_color}
-        </span>
-      </div>
+      {isOpen && (
+        <div className="absolute top-full mt-2 left-0 z-20 rounded-xl border p-3 shadow-lg"
+          style={{ background: 'white', borderColor: 'var(--border)', width: '180px' }}>
+          <p className="text-xs mb-2 font-medium" style={{ color: 'var(--text-muted)' }}>Accent color</p>
+          <div className="grid grid-cols-5 gap-2">
+            {colors.map(c => (
+              <button key={c.value}
+                title={c.name}
+                onClick={() => { onChange(c.value); setIsOpen(false) }}
+                className="w-7 h-7 rounded-full flex items-center justify-center transition-transform hover:scale-110"
+                style={{ background: c.value, outline: selectedColor === c.value ? `2px solid ${c.value}` : 'none', outlineOffset: '2px' }}>
+                {selectedColor === c.value && <Check size={11} color="white" strokeWidth={3} />}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

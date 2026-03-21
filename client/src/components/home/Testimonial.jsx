@@ -1,51 +1,86 @@
 import React from 'react'
 import Title from './Title'
 
-const testimonials = [
+const cards = [
   {
-    name: 'Rahul Sharma',
-    role: 'Software Engineer at Infosys',
-    text: 'ResumeMadeEasy helped me land my first job. The AI enhancement feature made my resume stand out instantly.'
+    img: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200',
+    name: 'Rohan Mehta',
+    role: 'Software Engineer, Bangalore',
+    text: 'The AI summary feature saved me hours. My recruiter actually mentioned my profile stood out.',
   },
   {
-    name: 'Priya Mehta',
-    role: 'Product Manager at Flipkart',
-    text: 'I loved how easy it was to switch templates without losing my data. Got interview calls within a week.'
+    img: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200',
+    name: 'Priya Singh',
+    role: 'Product Designer',
+    text: 'Clean templates, fast to fill out. Got interview calls within a week of updating my resume here.',
   },
   {
-    name: 'Arjun Verma',
-    role: 'Frontend Developer at Razorpay',
-    text: 'The public share link feature is brilliant. Sent my resume link directly in emails instead of attachments.'
-  }
+    img: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=200',
+    name: 'Karan Joshi',
+    role: 'CS Student, IIT Delhi',
+    text: 'Used it for campus placements. The export was crisp and formatted exactly right for HR portals.',
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200',
+    name: 'Ananya Rao',
+    role: 'Data Analyst',
+    text: 'Switched from Canva resumes to this. Night and day difference in how professional it looks.',
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=200',
+    name: 'Arjun Das',
+    role: 'Backend Developer',
+    text: 'Took me 20 minutes to have a complete, polished resume. The AI bullet suggestions were spot-on.',
+  },
+  {
+    img: 'https://randomuser.me/api/portraits/women/44.jpg',
+    name: 'Simran Kaur',
+    role: 'MBA Graduate',
+    text: 'I had zero design sense. ResumeMadeEasy made me look like I hired a professional resume writer.',
+  },
 ]
+
+const Card = ({ card }) => (
+  <div className="w-72 shrink-0 mx-3 rounded-xl p-5 border"
+    style={{ background: 'white', borderColor: 'var(--border)' }}>
+    <p className="text-sm leading-relaxed mb-5" style={{ color: 'var(--text)' }}>
+      "{card.text}"
+    </p>
+    <div className="flex items-center gap-3">
+      <img src={card.img} className="w-9 h-9 rounded-full object-cover" alt={card.name} />
+      <div>
+        <p className="text-sm font-medium" style={{ color: 'var(--text)' }}>{card.name}</p>
+        <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{card.role}</p>
+      </div>
+    </div>
+  </div>
+)
 
 const Testimonial = () => {
   return (
-    <section className='w-full py-16 px-6'>
-      <div className='max-w-4xl mx-auto'>
+    <div id="testimonials" className="scroll-mt-16 py-24 overflow-hidden"
+      style={{ background: 'var(--bg)' }}>
+      <div className="px-6 md:px-16 lg:px-24 xl:px-32">
         <Title
-          title='What our users say'
-          subtitle='Thousands of job seekers have built their resumes with us'
+          tag="Reviews"
+          title="Heard from the people using it"
         />
-
-        <div className='grid grid-cols-1 sm:grid-cols-3 gap-6'>
-          {testimonials.map((t, i) => (
-            <div key={i} className='p-6 rounded-xl border'
-              style={{ borderColor: 'var(--border)', background: 'var(--bg-muted)' }}>
-              <p className='text-sm mb-4' style={{ color: 'var(--text-muted)' }}>
-                "{t.text}"
-              </p>
-              <p className='text-sm font-medium' style={{ color: 'var(--text)' }}>
-                {t.name}
-              </p>
-              <p className='text-xs mt-0.5' style={{ color: 'var(--text-muted)' }}>
-                {t.role}
-              </p>
-            </div>
-          ))}
-        </div>
       </div>
-    </section>
+
+      <div className="mt-12 space-y-4">
+        {[false, true].map((reverse, ri) => (
+          <div key={ri} className="relative w-full overflow-hidden">
+            <div className="absolute left-0 top-0 h-full w-20 z-10 pointer-events-none"
+              style={{ background: 'linear-gradient(to right, var(--bg), transparent)' }} />
+            <div className={`flex min-w-[200%] marquee-inner ${reverse ? 'marquee-reverse' : ''}`}>
+              {[...cards, ...cards].map((card, i) => <Card key={i} card={card} />)}
+            </div>
+            <div className="absolute right-0 top-0 h-full w-20 z-10 pointer-events-none"
+              style={{ background: 'linear-gradient(to left, var(--bg), transparent)' }} />
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
 

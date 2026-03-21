@@ -11,4 +11,4 @@ resumeRouter.delete('/delete/:resumeId', protect, deleteResume);
 resumeRouter.get('/get/:resumeId', protect, getResumeById);
 resumeRouter.get('/public/:resumeId', getPublicResumeById);
 
-export default resumeRouter;
+export default resumeRouter

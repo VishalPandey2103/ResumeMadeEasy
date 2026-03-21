@@ -1,14 +1,20 @@
 import React from 'react'
 
-const Title = ({ title, subtitle }) => {
+const Title = ({ title, description, tag }) => {
   return (
-    <div className='text-center mb-10'>
-      <h2 className='text-2xl font-semibold' style={{ color: 'var(--text)' }}>
+    <div className='text-center mt-5' style={{ color: 'var(--text)' }}>
+      {tag && (
+        <p className="text-xs uppercase tracking-widest mb-3 font-medium" style={{ color: 'var(--accent)' }}>
+          {tag}
+        </p>
+      )}
+      <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 500 }}
+        className='text-3xl sm:text-4xl'>
         {title}
       </h2>
-      {subtitle && (
-        <p className='text-sm mt-2' style={{ color: 'var(--text-muted)' }}>
-          {subtitle}
+      {description && (
+        <p className='max-w-xl mx-auto mt-3 text-sm leading-relaxed' style={{ color: 'var(--text-muted)' }}>
+          {description}
         </p>
       )}
     </div>

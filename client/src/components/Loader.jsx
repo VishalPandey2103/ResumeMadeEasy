@@ -1,14 +1,14 @@
 import React from 'react'
-import { LoaderCircleIcon } from 'lucide-react'
 
 const Loader = () => {
   return (
-    <div className='w-full h-screen flex items-center justify-center'>
-      <LoaderCircleIcon
-        size={28}
-        className='animate-spin'
-        style={{ color: 'var(--text-muted)' }}
-      />
+    <div className="min-h-screen flex items-center justify-center"
+      style={{ background: 'var(--bg)' }}>
+      <div className="flex flex-col items-center gap-3">
+        <div className="w-6 h-6 border-2 rounded-full animate-spin"
+          style={{ borderColor: 'var(--border)', borderTopColor: 'var(--accent)' }} />
+        <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Loading…</p>
+      </div>
     </div>
   )
 }
