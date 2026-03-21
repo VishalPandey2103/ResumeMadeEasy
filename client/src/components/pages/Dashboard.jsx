@@ -2,7 +2,7 @@ import { FilePenLineIcon, LoaderCircleIcon, PencilIcon, PlusIcon, TrashIcon, Upl
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import api from '../configs/api'
+import api from '../../configs/api.js'
 import toast from 'react-hot-toast'
 import pdfToText from 'react-pdftotext'
 

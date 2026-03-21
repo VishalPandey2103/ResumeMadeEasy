@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import ResumePreview from '../components/ResumePreview'
-import Loader from '../components/Loader'
+import ResumePreview from '../ResumePreview.jsx'
+import Loader from '../Loader.jsx'
 import { ArrowLeftIcon, DownloadIcon } from 'lucide-react'
-import api from '../configs/api'
+import api from '../../configs/api.js'
 
 const Preview = () => {
   const { resumeId } = useParams()
