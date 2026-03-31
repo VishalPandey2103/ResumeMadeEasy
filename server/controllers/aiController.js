@@ -140,3 +140,55 @@ export const uploadResume = async (req, res) => {
         return res.status(400).json({message: error.message})
     }
 }
+
+// controller for ATS score analysis against a job description
+// POST: /api/ai/ats-score
+export const getATSScore = async (req, res) => {
+    try {
+        const { resumeData, jobDescription } = req.body;
+
+        if (!resumeData || !jobDescription) {
+            return res.status(400).json({ message: 'Missing resumeData or jobDescription' });
+        }
+
+        const systemPrompt = `You are an ATS (Applicant Tracking System) expert. 
+Analyze the given resume against the job description and return ONLY a valid JSON object. 
+No explanation, no markdown, no extra text.`;
+
+        const userPrompt = `Resume Data: ${JSON.stringify(resumeData)}
+
+Job Description: ${jobDescription}
+
+Return this exact JSON structure:
+{
+  "score": <integer 0-100>,
+  "matched_keywords": [<array of strings found in both resume and JD>],
+  "missing_keywords": [<array of important JD keywords absent from resume>],
+  "section_feedback": {
+    "summary": "<one sentence feedback on the professional summary>",
+    "skills": "<one sentence feedback on the skills section>",
+    "experience": "<one sentence feedback on the experience section>"
+  },
+  "top_suggestions": [
+    "<actionable suggestion string>",
+    "<actionable suggestion string>",
+    "<actionable suggestion string>"
+  ]
+}`;
+
+        const response = await ai.chat.completions.create({
+            model: process.env.OPENAI_MODEL,
+            messages: [
+                { role: "system", content: systemPrompt },
+                { role: "user", content: userPrompt }
+            ],
+            response_format: { type: 'json_object' }
+        });
+
+        const result = JSON.parse(response.choices[0].message.content);
+        return res.status(200).json(result);
+
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+};
