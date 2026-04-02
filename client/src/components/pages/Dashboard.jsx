@@ -68,6 +68,7 @@ const Dashboard = () => {
     setIsLoading(true)
     try {
       const resumeText = await pdfToText(resume)
+      console.log('RESUME TEXT:', resumeText?.slice(0, 200))
       const { data } = await api.post('/api/ai/upload-resume', { title, resumeText }, { headers: { Authorization: token } })
       setTitle('')
       setResume(null)

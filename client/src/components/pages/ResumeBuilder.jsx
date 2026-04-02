@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import ATSScorePanel from '../ATSScorePanel.jsx'
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeftIcon, Briefcase, ChevronLeft, ChevronRight, DownloadIcon, EyeIcon, EyeOffIcon, FileText, FolderIcon, GraduationCap, Share2Icon, Sparkles, User } from 'lucide-react'
 import PersonalInfoForm from '../PersonalInfoForm.jsx'
@@ -13,6 +14,8 @@ import SkillsForm from '../SkillsForm.jsx'
 import { useSelector } from 'react-redux'
 import api from '../../configs/api.js'
 import toast from 'react-hot-toast'
+
+
 
 const sections = [
   { id: 'personal', name: 'Personal', icon: User },
@@ -39,6 +42,7 @@ const ResumeBuilder = () => {
 
   const [activeSectionIndex, setActiveSectionIndex] = useState(0)
   const [removeBackground, setRemoveBackground] = useState(false)
+  const [rightTab, setRightTab] = useState('preview')
 
   const loadExistingResume = async () => {
     try {
@@ -216,31 +220,73 @@ const ResumeBuilder = () => {
           </div>
 
           {/* Right — Preview */}
+          {/* Right — Preview + ATS */}
           <div className="lg:col-span-7">
-            {/* Action bar */}
-            <div className="flex items-center justify-end gap-2 mb-3 flex-wrap">
-              {resumeData.public && (
-                <button onClick={handleShare}
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-md text-xs border transition-colors"
-                  style={{ borderColor: 'var(--border)', color: 'var(--text-muted)', background: 'white' }}>
-                  <Share2Icon size={13} /> Share
+
+            {/* Tab switcher + action bar */}
+            <div className="flex items-center justify-between gap-2 mb-3 flex-wrap">
+
+              {/* Tabs */}
+              <div className="flex gap-1 p-1 rounded-lg" style={{ background: 'var(--border)' }}>
+                <button
+                  onClick={() => setRightTab('preview')}
+                  className="px-3 py-1.5 rounded-md text-xs font-medium transition-colors"
+                  style={{
+                    background: rightTab === 'preview' ? 'white' : 'transparent',
+                    color: rightTab === 'preview' ? 'var(--text)' : 'var(--text-muted)',
+                    boxShadow: rightTab === 'preview' ? '0 1px 2px rgba(0,0,0,0.08)' : 'none'
+                  }}>
+                  Preview
                 </button>
+                <button
+                  onClick={() => setRightTab('ats')}
+                  className="px-3 py-1.5 rounded-md text-xs font-medium transition-colors"
+                  style={{
+                    background: rightTab === 'ats' ? 'white' : 'transparent',
+                    color: rightTab === 'ats' ? 'var(--text)' : 'var(--text-muted)',
+                    boxShadow: rightTab === 'ats' ? '0 1px 2px rgba(0,0,0,0.08)' : 'none'
+                  }}>
+                  ATS Score
+                </button>
+              </div>
+
+              {/* Action buttons — only visible on preview tab */}
+              {rightTab === 'preview' && (
+                <div className="flex items-center gap-2 flex-wrap">
+                  {resumeData.public && (
+                    <button onClick={handleShare}
+                      className="flex items-center gap-1.5 px-4 py-2 rounded-md text-xs border transition-colors"
+                      style={{ borderColor: 'var(--border)', color: 'var(--text-muted)', background: 'white' }}>
+                      <Share2Icon size={13} /> Share
+                    </button>
+                  )}
+                  <button onClick={changeResumeVisibility}
+                    className="flex items-center gap-1.5 px-4 py-2 rounded-md text-xs border transition-colors"
+                    style={{ borderColor: 'var(--border)', color: 'var(--text-muted)', background: 'white' }}>
+                    {resumeData.public ? <EyeIcon size={13} /> : <EyeOffIcon size={13} />}
+                    {resumeData.public ? 'Public' : 'Private'}
+                  </button>
+                  <button onClick={() => window.print()}
+                    className="flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-medium transition-colors"
+                    style={{ background: 'var(--accent)', color: 'white' }}>
+                    <DownloadIcon size={13} /> Download PDF
+                  </button>
+                </div>
               )}
-              <button onClick={changeResumeVisibility}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-md text-xs border transition-colors"
-                style={{ borderColor: 'var(--border)', color: 'var(--text-muted)', background: 'white' }}>
-                {resumeData.public ? <EyeIcon size={13} /> : <EyeOffIcon size={13} />}
-                {resumeData.public ? 'Public' : 'Private'}
-              </button>
-              <button onClick={() => window.print()}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-medium transition-colors"
-                style={{ background: 'var(--accent)', color: 'white' }}>
-                <DownloadIcon size={13} /> Download PDF
-              </button>
             </div>
 
-            <ResumePreview data={resumeData} template={resumeData.template} accentColor={resumeData.accent_color} />
+            {/* Tab content */}
+            {rightTab === 'preview' ? (
+              <ResumePreview data={resumeData} template={resumeData.template} accentColor={resumeData.accent_color} />
+            ) : (
+              <div className="rounded-xl border p-5 overflow-y-auto" style={{ background: 'white', borderColor: 'var(--border)', maxHeight: '85vh' }}>
+                <ATSScorePanel resumeData={resumeData} />
+              </div>
+            )}
+
           </div>
+
+
         </div>
       </div>
     </div>
