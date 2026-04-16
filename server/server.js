@@ -15,6 +15,7 @@ await connectDB()
 
 app.use(express.json())
 app.use(cors())
+app.use(generalLimiter)  
 app.get('/', (req, res)=> res.send("Server is live..."))
 app.use('/api/users', userRouter)
 app.use('/api/resumes', resumeRouter)
