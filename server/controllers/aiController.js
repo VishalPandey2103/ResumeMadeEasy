@@ -21,7 +21,7 @@ export const enhanceProfessionalSummary = async (req, res) => {
                 },
     ],
         })
-
+        // verify via doing cosole.output for the content
         const enhancedContent = response.choices[0].message.content;
         return res.status(200).json({enhancedContent})
     } catch (error) {
