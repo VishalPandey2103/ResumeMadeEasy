@@ -14,7 +14,7 @@ import SkillsForm from '../SkillsForm.jsx'
 import { useSelector } from 'react-redux'
 import api from '../../configs/api.js'
 import toast from 'react-hot-toast'
-
+import ResumeCompletionScore from '../ResumeCompletionScore.jsx'
 
 
 const sections = [
@@ -125,6 +125,11 @@ const ResumeBuilder = () => {
               </div>
 
               <div className="p-5">
+                {/* Completion score */}
+                <div className="mb-4">
+                  <ResumeCompletionScore data={resumeData} />
+                </div>
+
                 {/* Section tabs */}
                 <div className="flex gap-1 flex-wrap mb-5">
                   {sections.map((s, i) => {

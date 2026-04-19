@@ -70,7 +70,7 @@ const AcademicTemplate = ({ data, accentColor }) => {
                                             <p className="text-[12px] text-gray-700 leading-snug">{edu.institution}</p>
                                         )}
                                     </div>
-                                    <div className="text-[11px] text-gray-600 text-right min-w-[110px] leading-snug">
+                                    <div className="text-[11px] text-gray-600 text-right min-w-27.5 leading-snug">
                                         {edu.graduation_date && (
                                             <p className="font-semibold">{formatDate(edu.graduation_date)}</p>
                                         )}
@@ -100,7 +100,7 @@ const AcademicTemplate = ({ data, accentColor }) => {
                                                 <p className="text-[12px] text-gray-700">{exp.company}</p>
                                             )}
                                         </div>
-                                        <div className="text-[11px] text-gray-600 text-right min-w-[100px]">
+                                        <div className="text-[11px] text-gray-600 text-right min-w-27.5 leading-snug">
                                             {exp.start_date && exp.end_date && (
                                                 <span>{formatDate(exp.start_date)} - {formatDate(exp.end_date)}</span>
                                             )}
