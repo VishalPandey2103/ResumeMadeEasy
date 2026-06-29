@@ -13,8 +13,8 @@ const PORT = process.env.PORT || 3000;
 // Database connection
 await connectDB()
 
-app.use(express.json())
 app.use(cors())
+app.use(express.json())
 app.use(generalLimiter)  
 app.get('/', (req, res)=> res.send("Server is live..."))
 app.use('/api/users', userRouter)
